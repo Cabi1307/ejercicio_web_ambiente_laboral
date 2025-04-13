@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambiente Laboral DAF</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e0f2ff, #ffffff);
+    }
+    .card {
+      @apply bg-white p-6 rounded-2xl shadow-lg;
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800">
+  <header class="text-center p-6 bg-gradient-to-b from-blue-100 to-transparent">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Grupo_Financiero_Multiva_logo.png" alt="Logo Multiva Ironbank" class="mx-auto h-20">
+    <h1 class="text-2xl font-bold mt-4">Ambiente Laboral DAF</h1>
+    <p class="mt-2 text-lg">Bienvenido. Este espacio es para ti, para escucharte y construir juntos un mejor lugar de trabajo.</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Eres importante</h2>
+      <p>Tu opinión es clave para seguir construyendo un entorno laboral sano, respetuoso y humano. Gracias por ser parte de este esfuerzo.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Objetivo</h2>
+      <p>Implementar actividades que fortalezcan la integración del equipo, fomenten el bienestar, y creen un sentido de pertenencia en cada colaborador.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Valores de la Dirección</h2>
+      <ul class="list-disc list-inside">
+        <li>Ética profesional</li>
+        <li>Empatía</li>
+        <li>Diversidad</li>
+        <li>Honestidad</li>
+        <li>Responsabilidad</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-4">Departamentos</h2>
+      <div id="departamentos" class="space-y-2">
+        <!-- Departamentos se renderizan por JS -->
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-4">Formulario Ambiente Laboral</h2>
+      <form id="formulario" class="space-y-4">
+        <div>
+          <label class="block font-medium">Selecciona tu área:</label>
+          <select name="area" class="w-full p-2 border rounded" required></select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Calificación del ambiente laboral en tu área:</label>
+          <select name="ambiente_area" class="w-full p-2 border rounded" required>
+            <option>Buena</option>
+            <option>Regular</option>
+            <option>Mala</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Calificación del ambiente laboral en la dirección:</label>
+          <select name="ambiente_direccion" class="w-full p-2 border rounded" required>
+            <option>Buena</option>
+            <option>Regular</option>
+            <option>Mala</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Tu posición en el departamento:</label>
+          <select name="posicion" class="w-full p-2 border rounded" required>
+            <option>Subdirector</option>
+            <option>Gerente</option>
+            <option>Subgerente</option>
+            <option>Analista</option>
+            <option>Coordinador</option>
+            <option>Auxiliar</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Cómo consideras los cambios implementados?</label>
+          <select name="impacto" class="w-full p-2 border rounded" required>
+            <option>Sin impacto</option>
+            <option>Con impacto</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Cambios acertados:</label>
+          <textarea name="acertados" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">Cambios equivocados:</label>
+          <textarea name="equivocados" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Puedes aportar a mejorar el ambiente laboral?</label>
+          <select name="aportar" class="w-full p-2 border rounded" required>
+            <option>Sí</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Por qué?:</label>
+          <textarea name="porque" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">Acciones que te gustaría que se llevaran a cabo:</label>
+          <textarea name="acciones" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 flex items-center gap-2">
+          <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          Enviar
+        </button>
+        <div id="confirmacion" class="mt-2 text-green-600 font-semibold hidden">✅ Gracias. ⏳ Redirigiendo al inicio...</div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="text-center text-sm text-gray-600 py-4">
+    <p>Gracias por tu participación. Si no pudiste concluir, vuelve pronto y completa el formulario.</p>
+  </footer>
+
+  <script>
+    const departamentos = [
+      "Tesorería Back Office",
+      "Contabilidad",
+      "Servicios Generales",
+      "Seguridad física y de sucursales",
+      "Mesa de Control",
+      "VMO",
+      "Fiscal"
+    ];
+
+    const deptContainer = document.getElementById('departamentos');
+    const areaSelect = document.querySelector('select[name="area"]');
+
+    departamentos.forEach(dep => {
+      const block = document.createElement('div');
+      block.className = "border rounded-lg shadow p-4 cursor-pointer bg-blue-50 hover:bg-blue-100 transition";
+      block.innerHTML = `<h3 class="font-bold">${dep}</h3><p class="mt-2 hidden text-sm">Descripción del departamento ${dep}.</p>`;
+      block.addEventListener('click', () => {
+        const p = block.querySelector('p');
+        p.classList.toggle('hidden');
+      });
+      deptContainer.appendChild(block);
+
+      const option = document.createElement('option');
+      option.textContent = dep;
+      areaSelect.appendChild(option);
+    });
+
+    const form = document.getElementById('formulario');
+    const confirmacion = document.getElementById('confirmacion');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      await fetch("https://script.google.com/macros/s/AKfycbwqkIOnrvtAlrmEtrGKkGku2HvRWF5fkBIkEIxtMuOcVLEMJiTs28IfXWPCAhge6m1Kow/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      confirmacion.classList.remove('hidden');
+      form.reset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setTimeout(() => {
+        confirmacion.classList.add('hidden');
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recorrido de Mantenimiento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e0f2ff, #ffffff);
+    }
+    .card {
+      @apply bg-white p-6 rounded-2xl shadow-lg;
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800">
+  <header class="text-center p-6 bg-gradient-to-b from-blue-100 to-transparent">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Grupo_Financiero_Multiva_logo.png" alt="Logo Multiva Ironbank" class="mx-auto h-20">
+    <h1 class="text-2xl font-bold mt-4">Recorrido de Mantenimiento</h1>
+    <p class="mt-2 text-lg">Bienvenido. Este espacio es para ti, para escucharte y construir juntos un mejor lugar de trabajo.</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Eres importante</h2>
+      <p>Tu opinión es clave para seguir construyendo un entorno laboral sano, respetuoso y humano. Gracias por ser parte de este esfuerzo.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Objetivo</h2>
+      <p>Implementar actividades que fortalezcan la integración del equipo, fomenten el bienestar, y creen un sentido de pertenencia en cada colaborador.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-2">Valores de la Dirección</h2>
+      <ul class="list-disc list-inside">
+        <li>Ética profesional</li>
+        <li>Empatía</li>
+        <li>Diversidad</li>
+        <li>Honestidad</li>
+        <li>Responsabilidad</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-4">Departamentos</h2>
+      <div id="departamentos" class="space-y-2">
+        <!-- Departamentos se renderizan por JS -->
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-4">Formulario Ambiente Laboral</h2>
+      <form id="formulario" class="space-y-4">
+        <div>
+          <label class="block font-medium">Selecciona tu área:</label>
+          <select name="area" class="w-full p-2 border rounded" required></select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Calificación del ambiente laboral en tu área:</label>
+          <select name="ambiente_area" class="w-full p-2 border rounded" required>
+            <option>Buena</option>
+            <option>Regular</option>
+            <option>Mala</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Calificación del ambiente laboral en la dirección:</label>
+          <select name="ambiente_direccion" class="w-full p-2 border rounded" required>
+            <option>Buena</option>
+            <option>Regular</option>
+            <option>Mala</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Tu posición en el departamento:</label>
+          <select name="posicion" class="w-full p-2 border rounded" required>
+            <option>Subdirector</option>
+            <option>Gerente</option>
+            <option>Subgerente</option>
+            <option>Analista</option>
+            <option>Coordinador</option>
+            <option>Auxiliar</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Cómo consideras los cambios implementados?</label>
+          <select name="impacto" class="w-full p-2 border rounded" required>
+            <option>Sin impacto</option>
+            <option>Con impacto</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">Cambios acertados:</label>
+          <textarea name="acertados" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">Cambios equivocados:</label>
+          <textarea name="equivocados" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Puedes aportar a mejorar el ambiente laboral?</label>
+          <select name="aportar" class="w-full p-2 border rounded" required>
+            <option>Sí</option>
+            <option>No</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-medium">¿Por qué?:</label>
+          <textarea name="porque" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-medium">Acciones que te gustaría que se llevaran a cabo:</label>
+          <textarea name="acciones" class="w-full p-2 border rounded" rows="2"></textarea>
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 flex items-center gap-2">
+          <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          Enviar
+        </button>
+        <div id="confirmacion" class="mt-2 text-green-600 font-semibold hidden">✅ Gracias. ⏳ Redirigiendo al inicio...</div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="text-center text-sm text-gray-600 py-4">
+    <p>Gracias por tu participación. Si no pudiste concluir, vuelve pronto y completa el formulario.</p>
+  </footer>
+
+  <script>
+    const departamentos = [
+      "Tesorería Back Office",
+      "Contabilidad",
+      "Servicios Generales",
+      "Seguridad física y de sucursales",
+      "Mesa de Control",
+      "VMO",
+      "Fiscal"
+    ];
+
+    const deptContainer = document.getElementById('departamentos');
+    const areaSelect = document.querySelector('select[name="area"]');
+
+    departamentos.forEach(dep => {
+      const block = document.createElement('div');
+      block.className = "border rounded-lg shadow p-4 cursor-pointer bg-blue-50 hover:bg-blue-100 transition";
+      block.innerHTML = `<h3 class="font-bold">${dep}</h3><p class="mt-2 hidden text-sm">Descripción del departamento ${dep}.</p>`;
+      block.addEventListener('click', () => {
+        const p = block.querySelector('p');
+        p.classList.toggle('hidden');
+      });
+      deptContainer.appendChild(block);
+
+      const option = document.createElement('option');
+      option.textContent = dep;
+      areaSelect.appendChild(option);
+    });
+
+    const form = document.getElementById('formulario');
+    const confirmacion = document.getElementById('confirmacion');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      await fetch("https://script.google.com/macros/s/AKfycbwqkIOnrvtAlrmEtrGKkGku2HvRWF5fkBIkEIxtMuOcVLEMJiTs28IfXWPCAhge6m1Kow/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      confirmacion.classList.remove('hidden');
+      form.reset();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setTimeout(() => {
+        confirmacion.classList.add('hidden');
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
